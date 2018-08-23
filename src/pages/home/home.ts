@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 
 //irá administrar a pagina para abrir com Lazy Loading caso solicitada
@@ -12,8 +12,17 @@ export class HomePage {
 
   //construtor já vem injetado com os atributos, classes informadas
   //no Angular quando quiser injetar uma classe basta informar o parametro no construtor
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public menu: MenuController) {
+  }
 
+  //eventos de life cycle do ionic, na pagina principal irá desabilitar a chamada do menu
+  ionViewWillEnter() {
+    this.menu.swipeEnable(false);
+  }
+
+  //irá habilitar o menu quando estiver em uma ágina diferente da página inicial
+  ionViewDidLeave() {
+    this.menu.swipeEnable(true);
   }
 
   login() {
@@ -24,5 +33,7 @@ export class HomePage {
     //somente ao logar entra na página de categorias, não empilha uma página na outra
     this.navCtrl.setRoot('CategoriasPage');
   }
+
+
 
 }
