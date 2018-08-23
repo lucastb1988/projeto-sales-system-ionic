@@ -12,5 +12,17 @@
 
 
 <ion-content padding>
-<p>Página de Categorias</p>
+    <ion-list>
+        <button ion-item *ngFor="let item of items">
+          <ion-thumbnail item-start>
+            <!--{{bucketUrl}} foi criado no component com a url padrão do bitbucket 
+            + recuperação do id da categoria + .jpg-->
+            <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
+          </ion-thumbnail>
+          <!--referenciar um item da lista ({{}} este simbolo é chamado de interpolação e 
+            trabalha com objetos, atributos do seu component(controlador))
+          -->
+          <h2> {{ item.nome }}</h2>
+        </button>
+      </ion-list>
 </ion-content>
