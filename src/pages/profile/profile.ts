@@ -31,7 +31,16 @@ export class ProfilePage {
           this.cliente = response; //atribuir ao cliente na resposta da requisição se sucesso
           this.getImageIfExists(); //recupera imagem do bucket se existir
         },
-      error => {});
+      error => {
+        //se status for 403 (autorização) faz um redirect para HomePage
+        if (error.status == 403) {
+          this.navCtrl.setRoot('HomePage');
+        }
+      });
+    }
+    else {
+      //também redirecionar para HomePage caso ocorrer algum problema com seu LocalUser(localStorage)
+      this.navCtrl.setRoot('HomePage');
     }
   }
 

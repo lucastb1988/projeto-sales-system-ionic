@@ -1,9 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Observable } from "rxjs/Rx"; 
+import { StorageService } from "../services/storage.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
+
+    constructor(public storage: StorageService) {        
+    }
 
     //metódo irá interceptar uma requisição que é feita na aplicação e vai aplicar alguma logica conforme abaixo
     //esse método simplesmente passa por ele e não faz nada além do que a requisição original fazia
@@ -26,8 +30,20 @@ export class ErrorInterceptor implements HttpInterceptor {
             console.log(errorObj); 
             //Interceptor que irá imprimir na tela o erro, não o conponente(controlador)
 
-            return Observable.throw(errorObj); //propaga o erro
+            //testar varias possibilidades do status de erro que será capturado
+            switch(errorObj.status) {
+                case 403:
+                this.handle403();
+                break;
+            }
+
+            return Observable.throw(errorObj); //propaga o erro para o componente que fez essa requisição
         }) as any;
+    }
+
+    //caso encontrar status 403 (autorização) irá setar o localStorage como nulo
+    handle403() {
+        this.storage.setLocalUser(null);
     }
 }
 

@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Rx";
 import { StorageService } from "../services/storage.service";
 import { API_CONFIG } from "../config/api.config";
 
-//Classe irá interceptar os erros de autenticação do backend
+//Interceptor para incluir token nas requisições
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
