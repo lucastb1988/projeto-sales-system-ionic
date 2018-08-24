@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 import { CredenciaisDTO } from '../../models/credenciais.dto';
+import { AuthService } from '../../services/auth.service';
 
 //irá administrar a pagina para abrir com Lazy Loading caso solicitada
 @IonicPage()
@@ -18,7 +19,10 @@ export class HomePage {
 
   //construtor já vem injetado com os atributos, classes informadas
   //no Angular quando quiser injetar uma classe basta informar o parametro no construtor
-  constructor(public navCtrl: NavController, public menu: MenuController) {
+  constructor(
+    public navCtrl: NavController, 
+    public menu: MenuController,
+    public auth: AuthService) {
   }
 
   //eventos de life cycle do ionic, na pagina principal irá desabilitar a chamada do menu
@@ -32,12 +36,17 @@ export class HomePage {
   }
 
   login() {
-    //push irá empilhar uma pagina em cima da outra
+    //ex: push irá empilhar uma pagina em cima da outra
     //empilhar a página de CategoriasPage, irá chamar esta página sem precisar importar neste componente
     //quando realizar o login irá automaticamente para tela de Categorias
 
     //somente ao logar entra na página de categorias, não empilha uma página na outra
-    console.log(this.creds);
-    this.navCtrl.setRoot('CategoriasPage');
+
+    this.auth.authenticate(this.creds)
+      .subscribe(response => {
+        console.log(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+    error => {});    
   }
 }
