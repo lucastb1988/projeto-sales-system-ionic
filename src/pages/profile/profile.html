@@ -12,5 +12,12 @@
 
 
 <ion-content padding>
-{{ email }}
+  <ion-avatar>
+    <!--binding de dados recuperando imageUrl de cliente se preenchida para atribuir a um avatar
+    ou somente trará uma imagem de perfil blank caso o usuario não tenha inserido nenhuma imagem,
+    ? significa que não é necessario vir preenchido este campo-->
+    <img class="circle" [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png'">
+  </ion-avatar>
+  <h2 text-center>{{cliente?.nome}}</h2>
+  <p text-center>{{cliente?.email}}</p>
 </ion-content>
