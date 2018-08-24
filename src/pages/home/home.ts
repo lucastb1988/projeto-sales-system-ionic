@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { IonicPage } from 'ionic-angular/navigation/ionic-page';
+import { CredenciaisDTO } from '../../models/credenciais.dto';
 
 //irá administrar a pagina para abrir com Lazy Loading caso solicitada
 @IonicPage()
@@ -9,6 +10,11 @@ import { IonicPage } from 'ionic-angular/navigation/ionic-page';
   templateUrl: 'home.html'
 })
 export class HomePage {
+
+  creds: CredenciaisDTO = {
+    email: "",
+    senha: ""
+  }
 
   //construtor já vem injetado com os atributos, classes informadas
   //no Angular quando quiser injetar uma classe basta informar o parametro no construtor
@@ -31,9 +37,7 @@ export class HomePage {
     //quando realizar o login irá automaticamente para tela de Categorias
 
     //somente ao logar entra na página de categorias, não empilha uma página na outra
+    console.log(this.creds);
     this.navCtrl.setRoot('CategoriasPage');
   }
-
-
-
 }

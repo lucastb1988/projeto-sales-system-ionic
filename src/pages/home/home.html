@@ -7,16 +7,20 @@
   <form>
     <ion-item>
       <ion-label stacked>Email</ion-label>
-      <ion-input type="text"></ion-input>
+      <!--Binding com o componente home.ts, com o objeto credenciais.dto.ts criado neste componente,
+      combina binding de atributo [] com binding de evento (),
+      ngModel = diretiva do Angular que faz o binding com o objeto criado no componente,
+      quando faz binding precisa colocar o name também com o mesmo nome do objeto-->
+      <ion-input [(ngModel)]="creds.email" name="email" type="text"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Senha</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input [(ngModel)]="creds.senha" name="senha" type="password"></ion-input>
     </ion-item>
 
-    <!-- block ocupa toda área -->
-    <!-- event binding (click) com a função de login quando clicar neste botão -->
+    <!--block ocupa toda área-->
+    <!--event binding (click) com a função de login quando clicar neste botão-->
     <button ion-button block (click)="login()">Entrar</button>
   </form>
 
