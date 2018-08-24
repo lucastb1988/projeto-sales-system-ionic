@@ -5,6 +5,7 @@ import { ClienteDTO } from '../../models/cliente.dto';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { API_CONFIG } from '../../config/api.config';
 
+//Controlador
 @IonicPage()
 @Component({
   selector: 'page-profile',
@@ -32,7 +33,7 @@ export class ProfilePage {
           this.getImageIfExists(); //recupera imagem do bucket se existir
         },
       error => {
-        //se status for 403 (autorização) faz um redirect para HomePage
+        //se status for 403 (acesso negado) faz um redirect para HomePage
         if (error.status == 403) {
           this.navCtrl.setRoot('HomePage');
         }

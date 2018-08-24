@@ -5,6 +5,7 @@ import { CredenciaisDTO } from '../../models/credenciais.dto';
 import { AuthService } from '../../services/auth.service';
 
 //irá administrar a pagina para abrir com Lazy Loading caso solicitada
+//Controlador
 @IonicPage()
 @Component({
   selector: 'page-home',
