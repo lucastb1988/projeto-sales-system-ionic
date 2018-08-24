@@ -37,11 +37,7 @@ export class CategoriasPage {
         //esta resposta items que será utilizada no html
         this.items = response; //realiza esta função quando a resposta da requisição der sucesso
       },
-    error => {
-      console.log(error);
-    });
+    //precisa mostrar os erros mesmo vazio aqui pois o Interceptor está propagando o erro e está capturando aqui no Observable
+    error => {}); //os erros não serão tratados aqui e sim no Interceptor criado
   }
-
-
-
 }
