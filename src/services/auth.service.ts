@@ -4,9 +4,13 @@ import { HttpClient } from "@angular/common/http";
 import { API_CONFIG } from "../config/api.config";
 import { LocalUser } from "../models/local_user";
 import { StorageService } from "./storage.service";
+import { JwtHelper } from "angular2-jwt";
 
 @Injectable()
 export class AuthService {
+
+    //objeto criado para ajudar a extrair o e-mail encontrado dentro do token
+    jwtHelper: JwtHelper = new JwtHelper();
 
     constructor(public http: HttpClient, public storage: StorageService) {        
     }
@@ -32,8 +36,10 @@ export class AuthService {
         //irá remover a palavra BEARER + space do token
         let tok = authorizationValue.substring(7);
         let user : LocalUser = { //atribui ao token do obj LocalUser o tok criado acima
-            token: tok
-        };
+            token: tok,
+            //isso irá decodificar o token e depois recuperar o email
+            //e atribuir tudo dentro do LocalUser(token)
+            email: this.jwtHelper.decodeToken(tok).sub         };
         //irá armazenar este user dentro do localStorage da sessão
         this.storage.setLocalUser(user);
     }
