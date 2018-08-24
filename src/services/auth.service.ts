@@ -35,7 +35,8 @@ export class AuthService {
     successfulLogin(authorizationValue: string) {
         //irá remover a palavra BEARER + space do token
         let tok = authorizationValue.substring(7);
-        let user : LocalUser = { //atribui ao token do obj LocalUser o tok criado acima
+        let user : LocalUser = {
+            //atribui ao token do obj LocalUser o tok criado acima
             token: tok,
             //isso irá decodificar o token e depois recuperar o email
             //e atribuir tudo dentro do LocalUser(token)
