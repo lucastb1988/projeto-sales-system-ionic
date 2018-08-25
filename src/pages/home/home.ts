@@ -63,4 +63,9 @@ export class HomePage {
       },
     error => {});    
   }
+
+  //quando clicar para registrar empilha para página de SignUp (desta forma ele cria automaticamente um botão para voltar para a página anterior)
+  signup() {
+    this.navCtrl.push('SignupPage');
+  }
 }
