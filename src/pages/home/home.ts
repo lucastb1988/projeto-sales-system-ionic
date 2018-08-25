@@ -36,6 +36,18 @@ export class HomePage {
     this.menu.swipeEnable(true);
   }
 
+  //criado este método para que o usuário já venha logado no aplicativo depois de se conectar (não precisa se conectar sempre)
+  //dar um refresh no token quando realmente entrar no aplicativo (logar com sucesso)
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+      .subscribe(response => {
+        //se autenticar e logar com sucesso no localStorage deverá estar armazenado o token na sessão
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+    error => {});    
+  }  
+
   login() {
     //ex: push irá empilhar uma pagina em cima da outra
     //empilhar a página de CategoriasPage, irá chamar esta página sem precisar importar neste componente

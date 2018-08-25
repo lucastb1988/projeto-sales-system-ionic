@@ -30,6 +30,24 @@ export class AuthService {
             });
     }
 
+    //método para renovar token automaticamente
+    //o token é incluido automaticamente na requisição pelo interceptor
+    refreshToken() {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/auth/refresh_token`, 
+            {},
+            {
+                //está especificando que esta requisição retornará um objeto do tipo response, 
+                //dessa forma terei acesso ao header
+                //precisa pega o header da resposta vinda do backend
+                observe: 'response', 
+                //o endpoint retorna uma resposta de corpo vazio, por isso precisa informar que a 
+                //resposta virá como text senao o Angular tentará parsear para Json e dará erro
+                responseType: 'text'
+            });
+    }
+
+
     //este método irá definir o que irá acontecer caso aconteça um login com sucesso
     //irá receber o Bearer Token como parâmetro que veio do cabeçalho da resposta da requisição
     successfulLogin(authorizationValue: string) {
