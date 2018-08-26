@@ -35,7 +35,7 @@ export class ProdutosPage {
   }
 
   //itera sobre todos os produtos e pega id de cada um deles, 
-  //depois faz a chamada ao S3 atribuindo ao imageUrl a imagem recuperada do S3 passando id do produto
+  //depois faz a chamada ao S3 atribuindo ao imageUrl a imagem recuperada do S3 passando id do
   loadImageUrls() {
     for (var i = 0; i < this.items.length; i++) {
       let item = this.items[i];
@@ -45,5 +45,9 @@ export class ProdutosPage {
         },
       error => {});
     }
+  }
+
+  showDetail() {
+    this.navCtrl.push('ProdutoDetailPage');
   }
 }
