@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '../../../node_modules/@angular/forms';
+import { CidadeService } from '../../services/domain/cidade.service';
+import { EstadoService } from '../../services/domain/estado.service';
+import { EstadoDTO } from '../../models/estado.dto';
+import { CidadeDTO } from '../../models/cidade.dto';
 
 @IonicPage()
 @Component({
@@ -11,11 +15,15 @@ export class SignupPage {
 
   //FormGroup ajuda a controlar o formulario, fazer validações
   formGroup: FormGroup;
+  estados: EstadoDTO[];
+  cidades: CidadeDTO[];
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public formBuilder: FormBuilder) {
+    public formBuilder: FormBuilder,
+    public cidadeService: CidadeService,
+    public estadoService: EstadoService) {
 
       //formBuilder responsavel por instansciar fromGroup (injetar)
       this.formGroup = this.formBuilder.group({
@@ -36,6 +44,26 @@ export class SignupPage {
         estadoId : [null, [Validators.required]],
         cidadeId : [null, [Validators.required]]    
       });
+  }
+
+  ionViewDidLoad() {
+    this.estadoService.findAll() 
+      .subscribe(response => {
+        this.estados = response;
+        this.formGroup.controls.estadoId.setValue(this.estados[0].id); //deixar setado o estado com a primeira posição que encontrar
+        this.updateCidades(); //buscar as cidades de acordo com o estado selecionado
+      },
+    error => {});
+  }
+
+  updateCidades() {
+    let estado_id = this.formGroup.value.estadoId; //pega o estado selecionado na lista de estados do formulario preenchido
+    this.cidadeService.findAll(estado_id) //carregar as cidades do estado selecionado
+      .subscribe(response => {
+        this.cidades = response;
+        this.formGroup.controls.cidadeId.setValue(null); //não traz nenhuma cidade preenchida quando selecionar estado
+      },
+    error => {});
   }
 
   signupUser() {
