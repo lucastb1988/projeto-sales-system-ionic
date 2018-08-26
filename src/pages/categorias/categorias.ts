@@ -34,4 +34,8 @@ export class CategoriasPage {
     //precisa mostrar os erros mesmo vazio aqui pois o Interceptor está propagando o erro e está capturando aqui no Observable
     error => {}); //os erros não serão tratados aqui e sim no Interceptor criado
   }
+
+  showProdutos() {
+    this.navCtrl.push('ProdutosPage');
+  }
 }
