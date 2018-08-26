@@ -35,7 +35,7 @@ export class CategoriasPage {
     error => {}); //os erros não serão tratados aqui e sim no Interceptor criado
   }
 
-  showProdutos() {
-    this.navCtrl.push('ProdutosPage');
+  showProdutos(categoria_id: string) {
+    this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id}); //passou um parametro e deu push para empilhar a pagina
   }
 }
