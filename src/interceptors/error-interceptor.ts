@@ -3,6 +3,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS
 import { Observable } from "rxjs/Rx"; 
 import { StorageService } from "../services/storage.service";
 import { AlertController } from "ionic-angular";
+import { FieldMessage } from "../models/fieldmessage";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -43,6 +44,10 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.handle403();
                 break;
 
+                case 422:
+                this.handle422(errorObj);
+                break;
+
                 default:
                 this.handleDefaultError(errorObj);
             }
@@ -72,6 +77,21 @@ export class ErrorInterceptor implements HttpInterceptor {
         this.storage.setLocalUser(null);
     }
 
+    handle422(errorObj) {
+        let alert = this.alertController.create({
+            title: 'Erro 422: Validação',
+            //função para listar erros capturados no backend (FieldMessage)
+            message: this.listErrors(errorObj.errors),
+            enableBackdropDismiss: false, //para sair do alert precisa apertar no botão do alert para sair do alert
+            buttons: [
+                {
+                    text: 'Ok' //botão de texto sem ação
+                }
+            ]
+        });
+        alert.present();
+    }
+
     handleDefaultError(errorObj) {
         //cria um botão de alert na tela criando um objeto de alert
         let alert = this.alertController.create({
@@ -85,6 +105,16 @@ export class ErrorInterceptor implements HttpInterceptor {
             ]
         });
         alert.present();
+    }
+
+    //listando erros encontrados no backend (FieldMessage)
+    private listErrors(messages: FieldMessage[]) : string {
+        let s: string = '';
+        for(var i = 0; i < messages.length; i++) {
+            //captura cada erro dentro de messages(erros)
+            s = s + '<p><strong>' + messages[i].fieldName + ': </strong>' + messages[i].message + '</p>';
+        }
+        return s;
     }
 }
 
