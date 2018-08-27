@@ -32,25 +32,20 @@ export class StorageService {
 
     getCart() : Cart {
         let str = localStorage.getItem(STORAGE_KEYS.cart);
-        //se localStorage estiver nulo continua setando como nulo
-        if (str == null) {
-            return null;
-        }
-        else {
-            //localStorage armazena string, 
-            //para parear o LocalUser objeto criado é necessário parsea-lo como Json
+        if (str != null) {
             return JSON.parse(str);
         }
-    }
-
-    setCart(obj: Cart) {
-        //se obj estiver nulo removê-lo
-        if (obj == null) {
-            localStorage.removeItem(STORAGE_KEYS.cart);
-        }
         else {
-            //se obj estiver preenchido transformar este obj vindo como Json em string
+            return null;
+        }
+    }
+    
+    setCart(obj : Cart) {
+        if (obj != null) {
             localStorage.setItem(STORAGE_KEYS.cart, JSON.stringify(obj));
+        } 
+        else {
+            localStorage.removeItem(STORAGE_KEYS.cart);
         }
     }
 }
