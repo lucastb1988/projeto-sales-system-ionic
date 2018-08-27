@@ -12,18 +12,21 @@
 
 
 <ion-content padding>
-    <ion-list>
-        <!--para cada categoria clicada mostra os produtos associados passando id da categoria como parametro-->
-        <button ion-item *ngFor="let item of items" (click)="showProdutos(item.id)">
-          <ion-thumbnail item-start>
-            <!--{{bucketUrl}} foi criado no component com a url padrão do bitbucket 
-            + recuperação do id da categoria + .jpg-->
-            <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
-          </ion-thumbnail>
-          <!--referenciar um item da lista ({{}} este simbolo é chamado de interpolação e 
-            trabalha com objetos, atributos do seu component(controlador))
-          -->
-          <h2> {{ item.nome }}</h2>
-        </button>
-      </ion-list>
+  <ion-fab top right edge>
+    <button navPush="CartPage" ion-fab mini><ion-icon name="cart"></ion-icon></button>
+  </ion-fab>
+  <ion-list>
+      <!--para cada categoria clicada mostra os produtos associados passando id da categoria como parametro-->
+      <button ion-item *ngFor="let item of items" (click)="showProdutos(item.id)">
+        <ion-thumbnail item-start>
+          <!--{{bucketUrl}} foi criado no component com a url padrão do bitbucket 
+          + recuperação do id da categoria + .jpg-->
+          <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
+        </ion-thumbnail>
+        <!--referenciar um item da lista ({{}} este simbolo é chamado de interpolação e 
+          trabalha com objetos, atributos do seu component(controlador))
+        -->
+        <h2> {{ item.nome }}</h2>
+      </button>
+    </ion-list>
 </ion-content>
