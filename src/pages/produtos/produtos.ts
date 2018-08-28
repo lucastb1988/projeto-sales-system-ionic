@@ -21,6 +21,10 @@ export class ProdutosPage {
   }
 
   ionViewDidLoad() {
+    this.loadData();
+  }
+
+  loadData() {
     //recupera parametro de navegação pegando valor passado no
     //showProdutos(categoria_id: string) {
     //this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id}); 
@@ -64,5 +68,13 @@ export class ProdutosPage {
     });
     loader.present();
     return loader; //controlar manualmente o botao de loading
+  }
+
+  //da um refresh na página (atualiza a pagina de produtos)
+  doRefresher(refresher) {
+    this.loadData(); //faz a requisição novamente, recarrega os dados do backend (aqui atualiza os campos)
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
   }
 }
