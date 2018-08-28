@@ -13,8 +13,9 @@ export class ClienteService {
         public storage: StorageService) {
     }
 
-    findByEmail(email: string) : Observable<ClienteDTO> {
-        return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
+    //serviço não tipado (ou seja vai retornar o objeto exatamente igual do backend, todos os dados de Cliente e seus endereços)
+    findByEmail(email: string) {
+        return this.http.get(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
     }
 
     getImageFromBucket(id: string) : Observable<any> {
