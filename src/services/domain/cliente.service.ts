@@ -13,6 +13,10 @@ export class ClienteService {
         public storage: StorageService) {
     }
 
+    findById(id: string) {
+        return this.http.get(`${API_CONFIG.baseUrl}/clientes/${id}`);
+    }
+
     //serviço não tipado (ou seja vai retornar o objeto exatamente igual do backend, todos os dados de Cliente e seus endereços)
     findByEmail(email: string) {
         return this.http.get(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
