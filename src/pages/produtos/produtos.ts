@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ProdutoDTO } from '../../models/produto.dto';
 import { ProdutoService } from '../../services/domain/produto.service';
 import { API_CONFIG } from '../../config/api.config';
@@ -16,7 +16,8 @@ export class ProdutosPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public produtoService: ProdutoService) {
+    public produtoService: ProdutoService,
+    public loadingController: LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -25,13 +26,17 @@ export class ProdutosPage {
     //this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id}); 
     //(CategoriasPage para ProdutosPage)
     let categoria_id = this.navParams.get('categoria_id');
+    let loader = this.presentLoading();
     this.produtoService.findByCategoria(categoria_id)
       .subscribe(response => {
         //este endpoint findByCategoria retorna paginação no backend, por isso é necessário pegar o array content no retorno da resposta
         this.items = response['content'];
+        loader.dismiss(); //dispensa o método de loading após o carregamento da tela
         this.loadImageUrls(); //chama os produtos que possuem imagem cadastrada no S3
       },
-    error => {});
+    error => {
+      loader.dismiss(); //se der algum erro também dispensa o método de loading
+    });
   }
 
   //itera sobre todos os produtos e pega id de cada um deles, 
@@ -50,5 +55,14 @@ export class ProdutosPage {
   //passando parametro de navegação
   showDetail(produto_id: string) {
     this.navCtrl.push('ProdutoDetailPage', {produto_id: produto_id});
+  }
+
+  //criando método para mostrar um loading durante o redirecionamento para tela de produtos
+  presentLoading() {
+    let loader = this.loadingController.create({
+      content: "Aguarde..."
+    });
+    loader.present();
+    return loader; //controlar manualmente o botao de loading
   }
 }
